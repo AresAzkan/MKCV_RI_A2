@@ -6,6 +6,7 @@ public class PumpkinCollect : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            FindAnyObjectByType<PumpkinCounter>().CollectPumpkin();
             Destroy(gameObject);
         }
     }
