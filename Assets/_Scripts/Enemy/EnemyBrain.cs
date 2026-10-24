@@ -2,12 +2,6 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(EnemyVision))]
-[RequireComponent(typeof(EnemyRoam))]
-[RequireComponent(typeof(EnemyCollect))]
-[RequireComponent(typeof(EnemyAttack))]
-
 public class EnemyBrain : MonoBehaviour
 {
     public enum EnemyState
@@ -22,34 +16,40 @@ public class EnemyBrain : MonoBehaviour
 
     private NavMeshAgent agent;
     private EnemyVision vision;
+    private EnemyHearing hearing;
+    //
     private EnemyRoam roam;
     private EnemyCollect collect;
     private EnemyAttack attack;
 
-    void Awake()
+    void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         vision = GetComponent<EnemyVision>();
+        hearing = GetComponent<EnemyHearing>();
+        //
         roam = GetComponent<EnemyRoam>();
         collect = GetComponent<EnemyCollect>();
         attack = GetComponent<EnemyAttack>();
-    }
-
-    void Start()
-    {
+        //
         currentState = EnemyState.Roam;
         roam.Enter();
     }
 
     void Update()
     {
-        // Update vision first
+        // Update senses
         vision.Scan();
+        hearing.Scan();
 
         // PRIORITY 1: PLAYER
-        if (vision.VisiblePlayer != null)
+        if (vision.VisiblePlayer != null || hearing.HeardPlayer != null)
         {
-            attack.SetTarget(vision.VisiblePlayer);
+            Transform player = vision.VisiblePlayer != null
+                ? vision.VisiblePlayer
+                : hearing.HeardPlayer;
+
+            attack.SetTarget(player);
             ChangeState(EnemyState.Attack);
         }
         // PRIORITY 2: COIN
@@ -64,7 +64,7 @@ public class EnemyBrain : MonoBehaviour
             ChangeState(EnemyState.Roam);
         }
 
-        // Execute the active state
+        // Execute active state
         switch (currentState)
         {
             case EnemyState.Roam:

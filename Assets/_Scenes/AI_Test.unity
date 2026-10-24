@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 80967146}
   - component: {fileID: 80967145}
   - component: {fileID: 80967144}
+  - component: {fileID: 80967148}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -233,6 +234,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &80967148
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80967143}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 4
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &257305913
 GameObject:
   m_ObjectHideFlags: 0
@@ -2036,7 +2058,12 @@ GameObject:
   - component: {fileID: 2121164010}
   - component: {fileID: 2121164009}
   - component: {fileID: 2121164014}
-  - component: {fileID: 2121164013}
+  - component: {fileID: 2121164019}
+  - component: {fileID: 2121164018}
+  - component: {fileID: 2121164017}
+  - component: {fileID: 2121164016}
+  - component: {fileID: 2121164015}
+  - component: {fileID: 2121164020}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -2141,35 +2168,6 @@ Transform:
   - {fileID: 1326754654}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2121164013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2121164008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a3b6fe1a2c6ae54483fe81e8ccd10d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyPatrol
-  patrolPoints:
-  - {fileID: 1524800610}
-  - {fileID: 1684228658}
-  - {fileID: 1204275306}
-  - {fileID: 295813027}
-  - {fileID: 257305914}
-  - {fileID: 1353610558}
-  - {fileID: 1042089387}
-  - {fileID: 1937613452}
-  - {fileID: 957138293}
-  stoppingDistance: 0.5
-  enableVision: 1
-  visionRange: 10
-  visionAngle: 90
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!195 &2121164014
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2192,6 +2190,101 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2121164015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121164008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a20f2ccb7342f2545b90e46f21ba9586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
+  currentState: 0
+--- !u!114 &2121164016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121164008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c4649c89fcdc6e44bfd8053c7860d44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
+  attackRange: 1.5
+--- !u!114 &2121164017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121164008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa83fd9196fc3744793d42b5650521dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCollect
+--- !u!114 &2121164018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121164008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92ffe1c0a83c6eb42b9009477eec22ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyRoam
+  patrolPoints:
+  - {fileID: 1524800610}
+  - {fileID: 1684228658}
+  - {fileID: 1204275306}
+  - {fileID: 295813027}
+  - {fileID: 257305914}
+  - {fileID: 1353610558}
+  - {fileID: 1042089387}
+  - {fileID: 1937613452}
+  - {fileID: 957138293}
+  stoppingDistance: 0.5
+--- !u!114 &2121164019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121164008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20a36957c052b71408de20c00a0aca49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyVision
+  enableVision: 1
+  visionRange: 10
+  visionAngle: 90
+  eyeHeight: 1
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  closeDetectionRange: 1
+--- !u!114 &2121164020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121164008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c057b1fd3e8154686ed078da57cfc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHearing
+  enableHearing: 1
+  hearingRange: 5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
