@@ -21,10 +21,7 @@ public class EnemyHearing : MonoBehaviour
         if (player == null)
             return;
 
-        float distance = Vector3.Distance(
-            transform.position,
-            player.transform.position
-        );
+        float distance = Vector3.Distance(transform.position, player.transform.position);
 
         if (distance <= hearingRange)
         {

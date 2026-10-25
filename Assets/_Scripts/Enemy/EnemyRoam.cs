@@ -26,9 +26,7 @@ public class EnemyRoam : MonoBehaviour
         if (patrolPoints.Length == 0)
             return;
 
-        if (!agent.pathPending &&
-            agent.hasPath &&
-            agent.remainingDistance <= stoppingDistance)
+        if (!agent.pathPending && agent.hasPath && agent.remainingDistance <= stoppingDistance)
         {
             PickRandomPoint();
         }

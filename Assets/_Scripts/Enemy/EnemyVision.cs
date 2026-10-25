@@ -7,11 +7,6 @@ public class EnemyVision : MonoBehaviour
     [SerializeField] private bool enableVision = true;
     [SerializeField] private float visionRange = 10f;
     [SerializeField, Range(0f, 360f)] private float visionAngle = 90f;
-    [SerializeField] private float eyeHeight = 1f;
-    [SerializeField] private LayerMask obstacleMask;
-
-    [Header("Close Range")]
-    [SerializeField] private float closeDetectionRange = 1f;
 
     public Transform VisiblePlayer { get; private set; }
     public Transform VisibleCoin { get; private set; }
@@ -40,8 +35,7 @@ public class EnemyVision : MonoBehaviour
             if (!CanSee(coin.transform))
                 continue;
 
-            float distance = Vector3.Distance(
-                transform.position, coin.transform.position);
+            float distance = Vector3.Distance(transform.position, coin.transform.position);
 
             if (distance < closestDistance)
             {
@@ -56,24 +50,16 @@ public class EnemyVision : MonoBehaviour
         if (!enableVision || target == null)
             return false;
 
-        Vector3 origin = transform.position + Vector3.up * eyeHeight;
-        Vector3 destination = target.position + Vector3.up * 0.5f;
+        Vector3 origin = transform.position;
+        Vector3 destination = target.position;
         Vector3 direction = destination - origin;
 
         if (direction.magnitude > visionRange)
             return false;
 
-        // Allow close targets even outside the vision angle
-        if (direction.magnitude > closeDetectionRange)
-        {
-            float angle = Vector3.Angle(transform.forward, direction);
+        float angle = Vector3.Angle(transform.forward, direction);
 
-            if (angle > visionAngle / 2f)
-                return false;
-        }
-
-        // Walls can still block close targets
-        if (Physics.Linecast(origin, destination, obstacleMask))
+        if (angle > visionAngle / 2f)
             return false;
 
         return true;
@@ -81,7 +67,7 @@ public class EnemyVision : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        Vector3 origin = transform.position + Vector3.up * eyeHeight;
+        Vector3 origin = transform.position;
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(origin, visionRange);
@@ -94,8 +80,5 @@ public class EnemyVision : MonoBehaviour
 
         Gizmos.DrawRay(origin, left * visionRange);
         Gizmos.DrawRay(origin, right * visionRange);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(origin, closeDetectionRange);
     }
 }
