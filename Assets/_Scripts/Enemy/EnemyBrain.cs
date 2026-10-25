@@ -10,10 +10,9 @@ public class EnemyBrain : MonoBehaviour
         Collect,
         Attack
     }
-
-    [Header("Current State (Debug)")]
+    
     [SerializeField] private EnemyState currentState;
-
+    //
     private NavMeshAgent agent;
     private EnemyVision vision;
     private EnemyHearing hearing;
@@ -38,11 +37,10 @@ public class EnemyBrain : MonoBehaviour
 
     void Update()
     {
-        // Update senses
         vision.Scan();
         hearing.Scan();
 
-        // PRIORITY 1: PLAYER
+        //PRIORITY 1: PLAYER
         if (vision.VisiblePlayer != null || hearing.HeardPlayer != null)
         {
             Transform player = vision.VisiblePlayer != null
@@ -52,19 +50,18 @@ public class EnemyBrain : MonoBehaviour
             attack.SetTarget(player);
             ChangeState(EnemyState.Attack);
         }
-        // PRIORITY 2: COIN
+        //PRIORITY 2: COIN
         else if (vision.VisibleCoin != null)
         {
             collect.SetTarget(vision.VisibleCoin);
             ChangeState(EnemyState.Collect);
         }
-        // PRIORITY 3: ROAM
+        //PRIORITY 3: ROAM
         else
         {
             ChangeState(EnemyState.Roam);
         }
 
-        // Execute active state
         switch (currentState)
         {
             case EnemyState.Roam:
